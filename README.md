@@ -1,19 +1,19 @@
-# MSPriceEngine 🏷️
+# MSPriceEngine
 
 **Price Search Engine for Mexico** - Compare prices across major online stores in Mexico.
 
 An open-source project to help Mexican consumers find the best prices by scraping and comparing products from Amazon MX, Walmart MX, Liverpool, and more.
 
-## 🚀 Features
+## Features
 
-- ✅ REST API for product search
-- ✅ Multiple store support (Amazon MX, Walmart MX, Liverpool)
-- ✅ Automated daily price updates
-- ✅ SQLite/PostgreSQL support
-- ✅ Docker deployment ready
-- ✅ Swagger UI documentation
+- REST API for product search
+- Multiple store support (Amazon MX, Walmart MX, Liverpool)
+- Automated daily price updates
+- SQLite/PostgreSQL support
+- Docker deployment ready
+- Swagger UI documentation
 
-## 📋 Tech Stack
+## Tech Stack
 
 - **Backend**: Python 3.11+ with FastAPI
 - **Database**: SQLite (dev) / PostgreSQL (prod)
@@ -21,7 +21,7 @@ An open-source project to help Mexican consumers find the best prices by scrapin
 - **Scheduler**: APScheduler
 - **Deployment**: Docker + Docker Compose
 
-## 🛠️ Installation
+## Installation
 
 ### Option 1: Local Development
 
@@ -51,7 +51,7 @@ docker-compose up --build
 open http://localhost:8000/docs
 ```
 
-## 📖 API Documentation
+## API Documentation
 
 Once running, visit:
 - **Swagger UI**: http://localhost:8000/docs
@@ -74,7 +74,7 @@ curl "http://localhost:8000/products/1"
 curl "http://localhost:8000/stores"
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 MSPriceEngine/
@@ -102,7 +102,7 @@ MSPriceEngine/
 └── README.md
 ```
 
-## 🔧 Configuration
+## Configuration
 
 Copy `.env.example` to `.env` and configure:
 
@@ -118,7 +118,7 @@ ENABLE_SCHEDULER=false
 SCRAPING_HOUR=3
 ```
 
-## 🤖 Running Scrapers
+## Running Scrapers
 
 The scheduler runs automatically at 3:00 AM daily. To manually trigger:
 
@@ -127,7 +127,7 @@ from app.scheduler import scheduler
 scheduler.run_now()
 ```
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Install dev dependencies
@@ -137,16 +137,16 @@ pip install pytest pytest-asyncio
 pytest
 ```
 
-## 📊 Current Status
+## Current Status
 
-### Implemented ✅
+### Implemented
 - Amazon MX scraper (basic)
 - FastAPI REST API
 - SQLite database
 - Docker deployment
 - Swagger documentation
 
-### TODO 🚧
+### TODO
 - Complete Walmart MX scraper (needs JS rendering)
 - Complete Liverpool scraper
 - Add more stores (Mercado Libre, Coppel, etc.)
@@ -155,7 +155,7 @@ pytest
 - Tests suite
 - CI/CD pipeline
 
-## ⚠️ Legal Disclaimer
+## Legal Disclaimer
 
 This project is for **educational purposes only**. Web scraping may violate the Terms of Service of some websites. Always:
 - Respect `robots.txt`
@@ -163,7 +163,7 @@ This project is for **educational purposes only**. Web scraping may violate the 
 - Don't overload servers
 - Consult with a lawyer before production use
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please:
 1. Fork the repository
@@ -171,11 +171,11 @@ Contributions are welcome! Please:
 3. Make your changes
 4. Submit a pull request
 
-## 📝 License
+## License
 
 MIT License - See LICENSE file for details
 
-## 🔗 Links
+## Links
 
 - **Documentation**: Coming soon
 - **Issues**: Report bugs on GitHub
@@ -183,4 +183,4 @@ MIT License - See LICENSE file for details
 
 ---
 
-Made with ❤️ for the Mexican tech community
+Made with love for the Mexican tech community
