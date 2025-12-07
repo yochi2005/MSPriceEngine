@@ -4,6 +4,14 @@
 
 An open-source project to help Mexican consumers find the best prices by scraping and comparing products from Amazon MX, Walmart MX, Liverpool, and more.
 
+## Quick Links
+
+- **API Documentation:** http://localhost:8000/docs (Swagger UI)
+- **Complete Docs:** [docs/](docs/)
+- **Setup Guide:** [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md)
+- **API Guide:** [docs/API_GUIDE.md](docs/API_GUIDE.md)
+- **Architecture:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+
 ## Features
 
 - REST API for product search
@@ -12,14 +20,26 @@ An open-source project to help Mexican consumers find the best prices by scrapin
 - SQLite/PostgreSQL support
 - Docker deployment ready
 - Swagger UI documentation
+- Comprehensive documentation
 
 ## Tech Stack
 
-- **Backend**: Python 3.11+ with FastAPI
+- **Backend**: Python 3.13 with FastAPI
 - **Database**: SQLite (dev) / PostgreSQL (prod)
 - **Scraping**: httpx + BeautifulSoup4
 - **Scheduler**: APScheduler
 - **Deployment**: Docker + Docker Compose
+
+## Documentation
+
+All documentation is available in the [docs/](docs/) directory:
+
+- [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) - Installation and configuration
+- [API_GUIDE.md](docs/API_GUIDE.md) - How to use the API
+- [API_ENDPOINTS.md](docs/API_ENDPOINTS.md) - Endpoint reference
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Technical architecture
+- [PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) - Project structure
+- [FRONTEND_REQUIREMENTS.md](docs/FRONTEND_REQUIREMENTS.md) - Frontend specs
 
 ## Installation
 
