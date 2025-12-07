@@ -182,5 +182,3 @@ MIT License - See LICENSE file for details
 - **Discussions**: Join our community
 
 ---
-
-Made with love for the Mexican tech community
