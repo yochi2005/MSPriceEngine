@@ -1,53 +1,65 @@
 # MSPriceEngine
 
-**Price Search Engine for Mexico** - Compare prices across major online stores in Mexico.
+**Price Search Engine for Mexico** - Compare prices across major online stores in Mexico using official APIs and data feeds.
 
-An open-source project to help Mexican consumers find the best prices by scraping and comparing products from Amazon MX, Walmart MX, Liverpool, and more.
+A modern open-source project to help Mexican consumers find the best prices by integrating with official store APIs, XML/CSV/JSON feeds, and comparing products from Mercado Libre, Amazon MX, Walmart MX, Liverpool, Coppel, Sears, and more.
 
 ## Quick Links
 
 - **API Documentation:** http://localhost:8000/docs (Swagger UI)
+- **Frontend:** http://localhost:5174 (React + Vite)
 - **Complete Docs:** [docs/](docs/)
-- **Setup Guide:** [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md)
-- **API Guide:** [docs/API_GUIDE.md](docs/API_GUIDE.md)
-- **Architecture:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Integration Guide:** [docs/INTEGRATION_GUIDE.md](docs/INTEGRATION_GUIDE.md)
+- **API Credentials:** [docs/API_CREDENTIALS.md](docs/API_CREDENTIALS.md)
+- **How to Add Products:** [docs/HOW_TO_ADD_PRODUCTS.md](docs/HOW_TO_ADD_PRODUCTS.md)
 
 ## Features
 
-- REST API for product search
-- Multiple store support (Amazon MX, Walmart MX, Liverpool)
-- Automated daily price updates
+- REST API with advanced search and filtering
+- **6 Store Integrations** (Mercado Libre, Amazon MX, Walmart MX, Liverpool, Coppel, Sears)
+- Official API integration (no web scraping)
+- XML/CSV/JSON feed parsers
+- Advanced filters (price, store, category)
+- Real-time product search
 - SQLite/PostgreSQL support
 - Docker deployment ready
-- Swagger UI documentation
+- Modern React frontend with TailwindCSS
 - Comprehensive documentation
 
 ## Tech Stack
 
-- **Backend**: Python 3.13 with FastAPI
+### Backend
+- **Framework**: Python 3.13 with FastAPI
 - **Database**: SQLite (dev) / PostgreSQL (prod)
-- **Scraping**: httpx + BeautifulSoup4
-- **Scheduler**: APScheduler
+- **Integrations**: Official APIs + Feed Parsers (XML, CSV, JSON)
+- **HTTP Client**: httpx (async)
 - **Deployment**: Docker + Docker Compose
+
+### Frontend
+- **Framework**: React 18 + Vite
+- **Styling**: TailwindCSS
+- **Icons**: Lucide React
+- **State Management**: React Hooks
+- **Build Tool**: Vite
 
 ## Documentation
 
 All documentation is available in the [docs/](docs/) directory:
 
 - [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) - Installation and configuration
+- [INTEGRATION_GUIDE.md](docs/INTEGRATION_GUIDE.md) - How to use store integrations
+- [API_CREDENTIALS.md](docs/API_CREDENTIALS.md) - How to obtain API credentials
+- [HOW_TO_ADD_PRODUCTS.md](docs/HOW_TO_ADD_PRODUCTS.md) - Guide to add products manually
 - [API_GUIDE.md](docs/API_GUIDE.md) - How to use the API
 - [API_ENDPOINTS.md](docs/API_ENDPOINTS.md) - Endpoint reference
-- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Technical architecture
-- [PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) - Project structure
-- [FRONTEND_REQUIREMENTS.md](docs/FRONTEND_REQUIREMENTS.md) - Frontend specs
 
 ## Installation
 
-### Option 1: Local Development
+### Backend Setup
 
 ```bash
 # Clone repository
-git clone <repository-url>
+git clone git@github.com:yochi2005/MSPriceEngine.git
 cd MSPriceEngine
 
 # Create virtual environment
@@ -57,11 +69,32 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the application
+# Initialize database with sample data
+python populate_db.py
+
+# Run the API
 uvicorn app.main:app --reload
+
+# Access API at http://localhost:8000
 ```
 
-### Option 2: Docker (Recommended)
+### Frontend Setup
+
+```bash
+# Clone frontend repository
+git clone git@github.com:yochi2005/MSPriceEngineFrontend.git
+cd mspriceengine-frontend
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Access frontend at http://localhost:5173
+```
+
+### Docker (Coming Soon)
 
 ```bash
 # Build and run with Docker Compose
@@ -71,6 +104,21 @@ docker-compose up --build
 open http://localhost:8000/docs
 ```
 
+## Store Integrations
+
+### Currently Supported
+
+| Store | Method | Status | Credentials Required |
+|-------|--------|--------|---------------------|
+| **Mercado Libre** | Public API | ✅ Active | None |
+| **Amazon MX** | PA-API 5.0 | ⚠️ Pending | Access Key, Secret Key, Partner Tag |
+| **Walmart MX** | Feed/API | ⚠️ Pending | Contact Walmart |
+| **Liverpool** | Feed/API | ⚠️ Pending | Contact Liverpool |
+| **Coppel** | JSON Feed | ⚠️ Pending | Feed URL |
+| **Sears** | XML Feed | ⚠️ Pending | Feed URL |
+
+See [API_CREDENTIALS.md](docs/API_CREDENTIALS.md) for detailed setup instructions.
+
 ## API Documentation
 
 Once running, visit:
@@ -79,9 +127,14 @@ Once running, visit:
 
 ### Example API Calls
 
-**Search products:**
+**Search products with filters:**
 ```bash
-curl "http://localhost:8000/search?q=iphone&min_price=5000&max_price=20000"
+curl "http://localhost:8000/search?q=laptop&min_price=10000&max_price=30000&store_id=1"
+```
+
+**Search by category:**
+```bash
+curl "http://localhost:8000/search?q=iphone&category_id=2"
 ```
 
 **Get product details:**
@@ -94,6 +147,36 @@ curl "http://localhost:8000/products/1"
 curl "http://localhost:8000/stores"
 ```
 
+**List categories:**
+```bash
+curl "http://localhost:8000/categories"
+```
+
+## Importing Products
+
+### Using Import Script
+
+```bash
+# Import from Mercado Libre with default queries
+python import_products.py --all
+
+# Import with custom queries
+python import_products.py --queries "laptop,iphone,tablet"
+
+# Import with custom limit per query
+python import_products.py --all --limit 100
+```
+
+### Testing Integrations
+
+```bash
+# Test all integrations
+python test_integrations.py
+
+# Test specific store
+python test_integrations.py --store mercadolibre
+```
+
 ## Project Structure
 
 ```
@@ -104,18 +187,26 @@ MSPriceEngine/
 │   ├── models.py            # Database models
 │   ├── schemas.py           # Pydantic schemas
 │   ├── database.py          # Database configuration
-│   ├── scheduler.py         # Scraping scheduler
-│   └── scrapers/
+│   └── integrations/
 │       ├── __init__.py
-│       ├── base.py          # Base scraper class
-│       ├── amazon.py        # Amazon MX scraper
-│       ├── walmart.py       # Walmart MX scraper
-│       └── liverpool.py     # Liverpool scraper
-├── tests/
-│   └── __init__.py
-├── data/                    # SQLite database (gitignored)
-├── Dockerfile
-├── docker-compose.yml
+│       ├── base.py          # Base integration class
+│       ├── api_adapter.py   # REST API adapter
+│       ├── parsers/
+│       │   ├── xml_parser.py
+│       │   ├── csv_parser.py
+│       │   └── json_parser.py
+│       └── stores/
+│           ├── mercadolibre.py
+│           ├── amazon.py
+│           ├── walmart.py
+│           ├── liverpool.py
+│           ├── coppel.py
+│           └── sears.py
+├── docs/                    # Documentation
+├── tests/                   # Tests
+├── import_products.py       # Product import script
+├── test_integrations.py     # Integration tests
+├── populate_db.py           # Sample data populator
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
@@ -128,24 +219,29 @@ Copy `.env.example` to `.env` and configure:
 
 ```env
 # Database
-DATABASE_URL=sqlite:///./data/price_search.db
+DATABASE_URL=sqlite:///./mspriceengine.db
 
 # For PostgreSQL:
 # DATABASE_URL=postgresql://user:password@localhost:5432/priceengine
 
-# Scheduler
-ENABLE_SCHEDULER=false
-SCRAPING_HOUR=3
+# Store API Credentials
+AMAZON_ACCESS_KEY=your_key
+AMAZON_SECRET_KEY=your_secret
+AMAZON_PARTNER_TAG=your_tag
+
+COPPEL_FEED_URL=https://...
+SEARS_FEED_URL=https://...
+LIVERPOOL_FEED_URL=https://...
 ```
 
-## Running Scrapers
+## Frontend Features
 
-The scheduler runs automatically at 3:00 AM daily. To manually trigger:
-
-```python
-from app.scheduler import scheduler
-scheduler.run_now()
-```
+- **Search Interface**: Intuitive search with autocomplete
+- **Advanced Filters**: Price range, store, category filters
+- **Store Status**: Visual indicators of active integrations
+- **Product Cards**: Color-coded badges by store
+- **Responsive Design**: Mobile-first approach
+- **Real-time Updates**: Instant filter application
 
 ## Testing
 
@@ -155,50 +251,78 @@ pip install pytest pytest-asyncio
 
 # Run tests
 pytest
+
+# Run specific test
+pytest tests/test_integrations.py
 ```
 
 ## Current Status
 
-### Implemented
-- Amazon MX scraper (basic)
-- FastAPI REST API
-- SQLite database
-- Docker deployment
-- Swagger documentation
+### Implemented ✅
+- FastAPI REST API with filters
+- 6 store integrations (architecture complete)
+- Mercado Libre integration (fully functional)
+- XML/CSV/JSON feed parsers
+- Product import system
+- Advanced search filters (price, store, category)
+- Modern React frontend
+- SQLite database with migrations
+- Docker-ready architecture
+- Comprehensive documentation
 
-### TODO
-- Complete Walmart MX scraper (needs JS rendering)
-- Complete Liverpool scraper
-- Add more stores (Mercado Libre, Coppel, etc.)
+### In Progress ⚠️
+- Amazon MX integration (requires PA-API credentials)
+- Walmart/Liverpool integrations (pending feed access)
+- Coppel/Sears integrations (pending feed URLs)
+
+### TODO 📋
+- PostgreSQL production setup
 - Price history tracking
 - Product matching algorithm
-- Tests suite
+- Automated price updates
+- Email notifications
+- Complete test suite
 - CI/CD pipeline
+- Production deployment
 
 ## Legal Disclaimer
 
-This project is for **educational purposes only**. Web scraping may violate the Terms of Service of some websites. Always:
-- Respect `robots.txt`
+This project uses **official APIs and authorized data feeds** instead of web scraping. However:
+
+- Always respect store Terms of Service
 - Use reasonable rate limiting
-- Don't overload servers
-- Consult with a lawyer before production use
+- Don't overload API servers
+- Obtain proper API credentials
+- Consult store partners for feed access
+- Review legal requirements before production use
+
+**No web scraping is performed** - all data comes from official sources.
 
 ## Contributing
 
 Contributions are welcome! Please:
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
 MIT License - See LICENSE file for details
 
-## Links
+## Support
 
-- **Documentation**: Coming soon
-- **Issues**: Report bugs on GitHub
-- **Discussions**: Join our community
+- **Issues**: Report bugs on [GitHub Issues](https://github.com/yochi2005/MSPriceEngine/issues)
+- **Documentation**: See [docs/](docs/) directory
+- **Email**: Contact for commercial inquiries
+
+## Acknowledgments
+
+- Built with FastAPI, React, and TailwindCSS
+- Store integrations based on official APIs
+- Community contributions welcome
 
 ---
+
+**Note**: This project is actively maintained and under development. Star the repo to stay updated!
